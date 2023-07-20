@@ -69,3 +69,24 @@ button:active {
     margin: 10px 0;
     object-fit: cover;
 }
+
+/* Style for active image placeholder */
+.image-placeholder.active {
+    border: 2px solid #3498db; /* Add a border when the image is active */
+}
+
+/* Style for non-active image placeholders */
+.image-placeholder:not(.active) {
+    filter: grayscale(100%);
+    cursor: pointer;
+}
+
+/* Disable pointer events for non-active image placeholders */
+.image-placeholder:not(.active) img {
+    pointer-events: none;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}

@@ -10,13 +10,13 @@
 
         <!-- Image placeholders container -->
         <div class="image-container">
-            <div class="image-placeholder">
-                <img src="images/rock.jpg" alt="rock">
+            <div class="image-placeholder" onclick="toggleActive(this)">
+                <img src="images/rock.png" alt="rock">
             </div>
-            <div class="image-placeholder">
+            <div class="image-placeholder" onclick="toggleActive(this)">
                 <img src="images/paper.jpg" alt="paper">
             </div>
-            <div class="image-placeholder">
+            <div class="image-placeholder" onclick="toggleActive(this)">
                 <img src="images/scissors.jpg" alt="scissors">
             </div>
         </div>
@@ -25,15 +25,15 @@
     <!-- Buttons for Play and Clear -->
     <div class="buttons">
         <button id="playButton">Play</button>
-        <button id="clearButton">Clear</button>
+        <button id="clearButton" onclick="clearCanvas()">Clear</button>
     </div>
     
-    
+    <!-- Link the separate JavaScript file -->
+    <script src="script.js"></script>
 
     <!-- Your game scripts should be included after the canvas element -->
     <script>
         // Dynamically adjust the canvas size based on the user's screen width and height
-        const canvas = document.getElementById('gameCanvas');
         canvas.width = window.innerWidth * 0.6;
         canvas.height = window.innerHeight * 0.8;
 
