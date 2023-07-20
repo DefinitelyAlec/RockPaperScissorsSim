@@ -5,12 +5,41 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Image placeholders container -->
+        <div class="image-container">
+            <div class="image-placeholder">
+                <img src="images/rock.jpg" alt="rock">
+            </div>
+            <div class="image-placeholder">
+                <img src="images/paper.jpg" alt="paper">
+            </div>
+            <div class="image-placeholder">
+                <img src="images/scissors.jpg" alt="scissors">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Buttons for Play and Clear -->
+    <div class="buttons">
+        <button id="playButton">Play</button>
+        <button id="clearButton">Clear</button>
+    </div>
+    
+    
 
     <!-- Your game scripts should be included after the canvas element -->
     <script>
+        // Dynamically adjust the canvas size based on the user's screen width and height
+        const canvas = document.getElementById('gameCanvas');
+        canvas.width = window.innerWidth * 0.6;
+        canvas.height = window.innerHeight * 0.8;
+
         // Your game logic will go here
         // You can use JavaScript and frameworks like Phaser, PixiJS, or plain canvas API to build your game.
     </script>
+
 </body>
 </html>
