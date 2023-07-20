@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: 20px;
+    overflow: hidden; /* Hide scrollbars */
+}
+
+canvas {
+    display: block;
+    background-color: #f0f0f0; /* Change the background color to your preference */
+    margin: auto;
+    /* Set the dimensions of the canvas as per your requirement */
+    width: 60vw;
+    height: 80vh;
+}
