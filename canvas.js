@@ -58,13 +58,10 @@ function placeImageOnCanvas(event) {
             case "scissors":                
                 scissors.push(newImageObject)
         }
-            
-        // An image will not exceed this width/height on the canvas
-        const maxImageSize = 50;
 
         // Draw the active image on the canvas at the clicked position
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(activeImage, x, y, maxImageSize, maxImageSize);
+        ctx.drawImage(activeImage, x, y, activeImage.width, activeImage.height);
     }
 }
 
@@ -153,14 +150,14 @@ function drawImageObjects() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw each imageObject on the canvas
-    rocks.forEach((imageObject) => {
-        ctx.drawImage(imageObject.image, imageObject.x, imageObject.y, imageObject.image.width, imageObject.image.height);
+    rocks.forEach((rock) => {
+        ctx.drawImage(rock.image, rock.x, rock.y, rock.image.width, rock.image.height);
     });
-    papers.forEach((imageObject) => {
-        ctx.drawImage(imageObject.image, imageObject.x, imageObject.y, imageObject.image.width, imageObject.image.height);
+    papers.forEach((paper) => {
+        ctx.drawImage(paper.image, paper.x, paper.y, paper.image.width, paper.image.height);
     });
-    scissors.forEach((imageObject) => {
-        ctx.drawImage(imageObject.image, imageObject.x, imageObject.y, imageObject.image.width, imageObject.image.height);
+    scissors.forEach((scissor) => {
+        ctx.drawImage(scissor.image, scissor.x, scissor.y, scissor.image.width, scissor.image.height);
     });
 
     // Call the drawImageObjects function on the next animation frame
@@ -176,7 +173,7 @@ function togglePlay() {
     if (isPlaying) {
         // Start the movement animation
         setInterval(function(){
-            moveRockTowardsPaper();
+            // moveRockTowardsPaper();
             drawImageObjects();
         },1000)
     }
