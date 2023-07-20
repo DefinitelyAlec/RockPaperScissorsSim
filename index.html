@@ -22,16 +22,19 @@
         </div>
     </div>
     
-    <!-- Buttons for Play and Clear -->
-    <div class="buttons">
-        <button id="playButton">Play</button>
-        <button id="clearButton" onclick="clearCanvas()">Clear</button>
-    </div>
-    
     <!-- Link the separate JavaScript file -->
     <script src="canvas.js"></script>
 
-    <script src="gameplay.js"></script>
+    <!-- <script src="gameplay.js"></script> -->
+
+    <!-- Buttons for Play and Clear -->
+    <div class="buttons">
+        <button id="playButton" onclick="play()">Play</button>
+        <button id="pauseButton" onclick="clearInterval(moveRockInterval); isPlaying = false;">Pause</button>
+        <button id="clearButton" onclick="clearCanvas()">Clear</button>
+    </div>
+    
+    
 
     <!-- Your game scripts should be included after the canvas element -->
     <script>
