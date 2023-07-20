@@ -11,6 +11,7 @@ function toggleActive(element) {
     element.classList.add('active');
 }
 
+itemCount = 0;
 // JavaScript function to place the active image on the canvas
 function placeImageOnCanvas(event) {
     const canvas = document.getElementById('gameCanvas');
@@ -21,6 +22,7 @@ function placeImageOnCanvas(event) {
         const x = event.clientX - canvasRect.left;
         const y = event.clientY - canvasRect.top;
 
+        // An image will not exceed this width/height on the canvas
         const maxImageSize = 50;
 
         // Draw the active image on the canvas at the clicked position

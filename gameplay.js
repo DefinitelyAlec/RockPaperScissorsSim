@@ -4,16 +4,20 @@ let isPlaying = false;
 // JavaScript function to handle the movement of "rock" images towards the closest "paper" image
 function moveRockTowardsPaper() {
     const canvas = document.getElementById('gameCanvas');
-    const rockImages = document.querySelectorAll('img[data-image-type="rock"]');
-    const paperImages = document.querySelectorAll('img[data-image-type="paper"]');
-    //console.log("made it to function")
-    
+    const rockImages = document.querySelectorAll('img[alt="rock"]');
+    const paperImages = document.querySelectorAll('img[alt="paper"]');
+    // console.log(rockImages.entries)
+
     rockImages.forEach((rockImage) => {
         const rockX = parseFloat(rockImage.style.left);
         const rockY = parseFloat(rockImage.style.top);
+        // console.log("checking rocks")
+        console.log(rockImage)
 
         let nearestDistance = Infinity;
         let nearestPaperX, nearestPaperY;
+        // console.log("checking paper")
+
 
         paperImages.forEach((paperImage) => {
             const paperX = parseFloat(paperImage.style.left);
