@@ -22,25 +22,10 @@ function placeImageOnCanvas(event) {
         const y = event.clientY - canvasRect.top;
 
         const maxImageSize = 50;
-        let width = activeImage.width;
-        let height = activeImage.height;
-
-        // Scale down the image if it exceeds the maximum size
-        if (width > maxImageSize || height > maxImageSize) {
-            const aspectRatio = width / height;
-            if (aspectRatio > 1) {
-                width = maxImageSize;
-                height = maxImageSize / aspectRatio;
-            } else {
-                height = maxImageSize;
-                width = maxImageSize * aspectRatio;
-            }
-        }
-
 
         // Draw the active image on the canvas at the clicked position
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(activeImage, x, y);
+        ctx.drawImage(activeImage, x, y, maxImageSize, maxImageSize);
     }
 }
 
