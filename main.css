@@ -6,9 +6,22 @@ body {
 
 canvas {
     display: block;
-    background-color: #f0f0f0; /* Change the background color to your preference */
+    background-color: grey; /* Change the background color to your preference */
     margin: auto;
     /* Set the dimensions of the canvas as per your requirement */
     width: 60vw;
     height: 80vh;
+}
+
+/* Use prefers-color-scheme to set background color based on user's system theme */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a; /* Dark background color */
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #f0f0f0; /* Light background color */
+    }
 }
