@@ -13,14 +13,28 @@ const ctx = canvas.getContext('2d');
 // Represents an image drawn on the canvas
 class ImageObject{
     constructor(image, type){
-        this.image = image
-        this.type = type
-        this.x = 0
-        this.y = 0
+        this.image = image;
+        this.type = type;
+        this.x = 0;
+        this.y = 0;
+        this.width = image.width;
+        this.height = image.height;
     }
 
     draw(ctx, x, y, width, height){
-        ctx.drawImage(this.image, x, y, width, height)
+        ctx.drawImage(this.image, x, y, width, height);
+    }
+
+    collidesWith(otherImageObject) {
+        const rect1 = this.image.getBoundingClientRect();
+        const rect2 = otherImageObject.image.getBoundingClientRect();
+
+        return !(
+            rect1.right <= rect2.left ||
+            rect1.left >= rect2.right ||
+            rect1.bottom <= rect2.top ||
+            rect1.top >= rect2.bottom
+        );
     }
 }
 
@@ -115,6 +129,16 @@ function moveTowardsTarget(movingImages, targetImages) {
                 nearestTargetX = targetX;
                 nearestTargetY = targetY;
             }
+
+            // console.log(movingImage.collidesWith(targetImage))
+            // Collision check
+            if (movingImage.collidesWith(targetImage)) {
+                // Change the type of the image to "paper" when colliding with a "paper" image
+                targetImage.alt = movingImage.alt;
+                targetImage.image = movingImage.image;
+                //switch statement for 3 types, remove and add to object lists
+                console.log(movingImage.alt + " collided with " + targetImage.alt)
+            }
         });
 
         // Calculate the direction vector (dx, dy) from "moving" to the nearest "target"
@@ -128,8 +152,12 @@ function moveTowardsTarget(movingImages, targetImages) {
 
         // Update the position of the "moving" image towards the nearest "target" image
         const speed = 1; // Adjust the speed as needed
-        movingImage.x = movingX + speed * normDx;
-        movingImage.y = movingY + speed * normDy;
+        // Only update the position if there is a valid target to move to, 
+        // keeps images from disappearing when there are no targets
+        if (targetImages.length > 0){
+            movingImage.x = movingX + speed * normDx;
+            movingImage.y = movingY + speed * normDy;
+        }
     });
 }
 
