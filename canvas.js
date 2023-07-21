@@ -37,36 +37,6 @@ class ImageObject{
             this.y + this.height > otherImageObject.y
         );
     }
-
-    // transmute(toType){
-    //     switch(toType){
-    //         case "paper":
-    //             // remove from previous list
-    //             switch(this.type){
-    //                 case "rock":
-    //                     console.log(rocks);
-    //                     const index = rocks.indexOf(this);
-    //                     console.log(index);
-    //                     rocks.splice(index, 1);
-    //                     console.log(rocks);
-    //                     break;
-    //                 case "scissors":
-    //                     // TODO
-    //                     break;
-    //             }
-    //             this.image = paperImg;
-    //             this.type = "paper";
-    //             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    //             papers.push(this);
-    //             break;
-    //         case "rock":
-    //             // TODO
-    //             break;
-    //         case "scissors":
-    //             //TODO
-    //             break;
-    //     }
-    // }
 }
 
 
@@ -168,15 +138,18 @@ function moveTowardsTarget(movingImages, targetImages) {
                 // change the alt and image for consistency
                 // console.log(targetImage.type)
                 // console.log(movingImage.type)
-                targetImage.type = movingImage.type;
-                targetImage.image = movingImage.image;
+                
                 // console.log(movingImage.type + " collided with " + targetImage.type)
                 // Change the target properties to that of the chasing one if they collide
                 switch(targetImage.type){
                     case "rock":
+                        console.log("rocks before: "+rocks.entries)
+                        console.log("papers before: "+papers.entries)
                         rockIndex = rocks.indexOf(targetImage);
                         rocks.splice(rockIndex, 1);
                         papers.push(targetImage);
+                        console.log("rocks after: "+rocks.entries)
+                        console.log("papers after: "+papers.entries)
                         // targetImage.transmute("paper");
                         break;
                     case "paper":
@@ -190,7 +163,8 @@ function moveTowardsTarget(movingImages, targetImages) {
                         rocks.push(targetImage);
                         break;
                 }
-                
+                targetImage.type = movingImage.type;
+                targetImage.image = movingImage.image;
             }
         });
 
