@@ -130,15 +130,9 @@ function moveTowardsTarget(movingImages, targetImages) {
                 nearestTargetX = targetX;
                 nearestTargetY = targetY;
             }
-            // console.log(targetImage.type)
-            // console.log(movingImage.type)
-            // console.log(movingImage.collidesWith(targetImage))
-            // Collision check
-            if (movingImage.collidesWith(targetImage)) {
-                // change the alt and image for consistency
-                // console.log(targetImage.type)
-                // console.log(movingImage.type)
-                
+
+            // Collision check - change based on rules of rock paper scissors
+            if (movingImage.collidesWith(targetImage)) {                
                 // console.log(movingImage.type + " collided with " + targetImage.type)
                 // Change the target properties to that of the chasing one if they collide
                 switch(targetImage.type){

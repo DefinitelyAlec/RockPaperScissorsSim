@@ -8,8 +8,9 @@ I also wanted to add more freedom to the user in terms of setting up some sort o
 These two things should allow for the user to have a similar experience to what was displayed in the desktop application.
 
 Currently unsolved problems:
-* No clue how to work with canvases and making drawn image objects move incrementally with Javascript.
-* Need to figure out not only how to make objects move towards each other, but actively avoid other objects too.
+* Make UI easier to work with and add instructions
+* Make it so the images don't get squished every time the window is resized
+* Make objects both run away from the nearest enemy, and move towards the closest objective
 
 Possibly fun future features:
 * Add a login system so that user's can save certain canvas/play area setups for later tinkering.
