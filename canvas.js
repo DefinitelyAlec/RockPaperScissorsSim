@@ -26,14 +26,11 @@ class ImageObject{
     }
 
     collidesWith(otherImageObject) {
-        const rect1 = this.image.getBoundingClientRect();
-        const rect2 = otherImageObject.image.getBoundingClientRect();
-
-        return !(
-            rect1.right <= rect2.left ||
-            rect1.left >= rect2.right ||
-            rect1.bottom <= rect2.top ||
-            rect1.top >= rect2.bottom
+        return (
+            this.x < otherImageObject.x + otherImageObject.width &&
+            this.x + this.width > otherImageObject.x &&
+            this.y < otherImageObject.y + otherImageObject.height &&
+            this.y + this.height > otherImageObject.y
         );
     }
 }
@@ -130,14 +127,52 @@ function moveTowardsTarget(movingImages, targetImages) {
                 nearestTargetY = targetY;
             }
 
+            // // Collision check between movingImage and targetImage
+            // if (movingImage.collidesWith(targetImage)) {
+            //     // Check if movingImage is a rock and targetImage is paper
+            //     if (movingImage.type === 'rock' && targetImage.type === 'paper') {
+            //         // Handle collision between rock and paper here
+            //         console.log("Rock collided with Paper!");
+            //         // For example, you could remove the rock and paper from their respective arrays
+            //         const rockIndex = rocks.indexOf(movingImage);
+            //         if (rockIndex !== -1) {
+            //             rocks.splice(rockIndex, 1);
+            //         }
+            //         const paperIndex = papers.indexOf(targetImage);
+            //         if (paperIndex !== -1) {
+            //             papers.splice(paperIndex, 1);
+            //         }
+            //         // Redraw the canvas after removing the collided rock and paper
+            //         drawImageObjects();
+            //     }
+            // }
+
             // console.log(movingImage.collidesWith(targetImage))
             // Collision check
             if (movingImage.collidesWith(targetImage)) {
-                // Change the type of the image to "paper" when colliding with a "paper" image
+                // change the alt and image for consistency
                 targetImage.alt = movingImage.alt;
                 targetImage.image = movingImage.image;
-                //switch statement for 3 types, remove and add to object lists
                 console.log(movingImage.alt + " collided with " + targetImage.alt)
+                // Change the target properties to that of the chasing one if they collide
+                switch(targetImage.alt){
+                    case "rock":
+                        rockIndex = rocks.indexOf(targetImage);
+                        rocks.splice(rockIndex, 1);
+                        papers.push(targetImage);
+                        break;
+                    case "paper":
+                        paperIndex = papers.indexOf(targetImage);
+                        papers.splice(paperIndex, 1);
+                        scissors.push(targetImage);
+                        break;
+                    case "scissors":
+                        scissorsIndex = scissors.indexOf(targetImage);
+                        scissors.splice(scissorsIndex, 1);
+                        rocks.push(targetImage);
+                        break;
+                }
+                
             }
         });
 
