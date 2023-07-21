@@ -1,5 +1,5 @@
 // Game movement logic
-let isPlaying = false;
+let alreadyPlaying = false;
 // var imageObjects = [];
 var rocks = [];
 var papers = [];
@@ -9,6 +9,21 @@ var moveRockInterval;
 // global canvas and context variables
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
+
+class ImageObject{
+    constructor(image, type){
+        this.image = image
+        this.type = type
+        this.x = 0
+        this.y = 0
+    }
+
+    draw(ctx, x, y, width, height){
+        ctx.drawImage(this.image, x, y, width, height)
+    }
+}
+
 
 // JavaScript function to toggle the active state of the image placeholders
 function toggleActive(element) {
@@ -23,18 +38,6 @@ function toggleActive(element) {
     element.classList.add('active');
 }
 
-class ImageObject{
-    constructor(image, type){
-        this.image = image
-        this.type = type
-        this.x = 0
-        this.y = 0
-    }
-
-    draw(ctx, x, y, width, height){
-        ctx.drawImage(this.image, x, y, width, height)
-    }
-}
 
 // JavaScript function to place the active image on the canvas
 function placeImageOnCanvas(event) {
@@ -87,87 +90,54 @@ function clearCanvas() {
     scissors = [];
 }
 
-// JavaScript function to handle the movement of "rock" images towards the closest "paper" image
-function moveRockTowardsPaper() {
-    // const rockImages = imageObjects.querySelectorAll('img[alt="rock"]');
-    // const paperImages = imageObjects.querySelectorAll('img[alt="paper"]');
-    // console.log(imageObjects)
-    console.log(rocks)
-    // console.log(papers)
 
-    // const ctx = canvasArea.getContext("2d");
-    // console.log(ctx);
-    // console.log(paperImages);
-
-    rocks.forEach((rockImage) => {
-        const rockX = parseFloat(rockImage.x);
-        const rockY = parseFloat(rockImage.y);
-        console.log("x: "+ rockX + ", y: " + rockY)
-        // console.log("checking rocks")
-        // console.log(rockImage);
+// JavaScript function to handle the movement of "moving" images towards the closest "target" image
+function moveTowardsTarget(movingImages, targetImages) {
+    movingImages.forEach((movingImage) => {
+        const movingX = parseFloat(movingImage.x);
+        const movingY = parseFloat(movingImage.y);
+        // console.log("x: "+ movingX + ", y: " + movingY)
 
         let nearestDistance = Infinity;
-        let nearestPaperX, nearestPaperY;
-        // console.log("checking paper")
+        let nearestTargetX, nearestTargetY;
 
+        targetImages.forEach((targetImage) => {
+            const targetX = parseFloat(targetImage.x);
+            const targetY = parseFloat(targetImage.y);
 
-        papers.forEach((paperImage) => {
-            const paperX = parseFloat(paperImage.x);
-            const paperY = parseFloat(paperImage.y);
-
-            // Calculate the distance between the "rock" and "paper" images
-            const dx = paperX - rockX;
-            const dy = paperY - rockY;
+            // Calculate the distance between the "moving" and "target" images
+            const dx = targetX - movingX;
+            const dy = targetY - movingY;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            console.log("distance: " + distance)
+            // console.log("distance: " + distance)
 
-            // Check if this "paper" image is closer than the current nearest one
+            // Check if this "target" image is closer than the current nearest one
             if (distance < nearestDistance) {
                 nearestDistance = distance;
-                nearestPaperX = paperX;
-                nearestPaperY = paperY;
+                nearestTargetX = targetX;
+                nearestTargetY = targetY;
             }
         });
 
-        // Calculate the direction vector (dx, dy) from "rock" to the nearest "paper"
-        const dx = nearestPaperX - rockX;
-        const dy = nearestPaperY - rockY;
+        // Calculate the direction vector (dx, dy) from "moving" to the nearest "target"
+        const dx = nearestTargetX - movingX;
+        const dy = nearestTargetY - movingY;
 
         // Normalize the direction vector
         const distance = Math.sqrt(dx * dx + dy * dy);
         const normDx = dx / distance;
         const normDy = dy / distance;
 
-        // Update the position of the "rock" image towards the nearest "paper" image
+        // Update the position of the "moving" image towards the nearest "target" image
         const speed = 1; // Adjust the speed as needed
-        rockImage.x = rockX + speed * normDx;
-        rockImage.y = rockY + speed * normDy;
+        movingImage.x = movingX + speed * normDx;
+        movingImage.y = movingY + speed * normDy;
     });
-
-    // Clear the canvas before redrawing
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw each imageObject on the canvas
-    rocks.forEach((rock) => {
-        ctx.drawImage(rock.image, rock.x, rock.y, rock.image.width, rock.image.height);
-    });
-    papers.forEach((paper) => {
-        ctx.drawImage(paper.image, paper.x, paper.y, paper.image.width, paper.image.height);
-    });
-    scissors.forEach((scissor) => {
-        ctx.drawImage(scissor.image, scissor.x, scissor.y, scissor.image.width, scissor.image.height);
-    });
-
-    // Call the moveRockTowardsPaper function on the next animation frame
-    if (isPlaying) {
-        requestAnimationFrame(moveRockTowardsPaper);
-    }
 }
+
 
 // JavaScript function to draw the imageObjects on the canvas
 function drawImageObjects() {
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
 
     // Clear the canvas before redrawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -182,22 +152,18 @@ function drawImageObjects() {
     scissors.forEach((scissor) => {
         ctx.drawImage(scissor.image, scissor.x, scissor.y, scissor.image.width, scissor.image.height);
     });
-
-    // Call the drawImageObjects function on the next animation frame
-    if (isPlaying) {
-        requestAnimationFrame(drawImageObjects);
-    }
 }
+
 
 // JavaScript function to start or stop the play movement
 function play() {
     // Start the movement animation
-    moveRockInterval = setInterval(function() {
-        moveRockTowardsPaper();
-        // drawImageObjects();
-    }, 1000);
+    if (!alreadyPlaying){
+        moveRockInterval = setInterval(function() {
+            moveTowardsTarget(rocks, scissors);
+            moveTowardsTarget(scissors, papers);
+            moveTowardsTarget(papers, rocks);
+            drawImageObjects();
+        }, 25);
+    }
 }
-
-// // Add event listener to the "Play" button
-// const playButton = document.getElementById('playButton');
-// playButton.addEventListener('click', togglePlay);
