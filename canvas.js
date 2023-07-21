@@ -3,7 +3,8 @@ let alreadyPlaying = false;
 var rocks = [];
 var papers = [];
 var scissors = [];
-var moveRockInterval;
+var moveInterval;
+let animationSpeed = 25; // Default animation speed
 const paperImg = document.getElementById("paper");
 const scissorsImg = document.getElementById("scissors");
 const rockImg = document.getElementById("rock");
@@ -137,14 +138,9 @@ function moveTowardsTarget(movingImages, targetImages) {
                 // Change the target properties to that of the chasing one if they collide
                 switch(targetImage.type){
                     case "rock":
-                        console.log("rocks before: "+rocks.entries)
-                        console.log("papers before: "+papers.entries)
                         rockIndex = rocks.indexOf(targetImage);
                         rocks.splice(rockIndex, 1);
                         papers.push(targetImage);
-                        console.log("rocks after: "+rocks.entries)
-                        console.log("papers after: "+papers.entries)
-                        // targetImage.transmute("paper");
                         break;
                     case "paper":
                         paperIndex = papers.indexOf(targetImage);
@@ -201,29 +197,49 @@ function drawImageObjects() {
     });
 }
 
+// Function to stop the game update
+function stopGameUpdate() {
+    clearInterval(moveInterval);
+    alreadyPlaying = false;
+}
+
+function moveImages() {
+    moveTowardsTarget(rocks, scissors);
+    moveTowardsTarget(scissors, papers);
+    moveTowardsTarget(papers, rocks);
+    drawImageObjects();
+
+    // Check if scissors have won
+    if (papers.length === 0 && rocks.length === 0 && scissors.length === 0){
+        stopGameUpdate();
+        alert("Click on the rock, paper, or scissors icons on the right and place them on the play area. Hit play when you are ready to watch the action!")
+    } else if (papers.length === 0 && rocks.length === 0) {
+        stopGameUpdate(); // Stop the animation
+        alert("Scissors wins!");
+    } else if (papers.length === 0 && scissors.length === 0) {
+        stopGameUpdate(); // Stop the animation
+        alert("Rock wins!");
+    } else if (scissors.length === 0 && rocks.length === 0) {
+        stopGameUpdate(); // Stop the animation
+        alert("Paper wins!");
+    }
+}
 
 // JavaScript function to start or stop the play movement
 function play() {
+    // Get the slider element and its label
+    const speedSlider = document.getElementById('speedSlider');
+    const sliderValueLabel = document.getElementById('sliderValueLabel');
+
+    // Update the label text with the current slider value
+    sliderValueLabel.textContent = speedSlider.value;
+
+    // Get the slider value and set the animation speed
+    animationSpeed = parseInt(speedSlider.value);
+
     // Start the movement animation
-    if (!alreadyPlaying){
-        moveRockInterval = setInterval(function() {
-            moveTowardsTarget(rocks, scissors);
-            moveTowardsTarget(scissors, papers);
-            moveTowardsTarget(papers, rocks);
-            drawImageObjects();
-        }, 25);
-        if (rocks.length === 0 && papers.length === 0){
-            clearInterval(moveRockInterval);
-            alreadyPlaying = false;
-            window.alert("Scissors Wins!")
-        } else if (rocks.length === 0 && scissors.length === 0){
-            clearInterval(moveRockInterval);
-            alreadyPlaying = false;
-            window.alert("Paper Wins!")
-        } else if (papers.length === 0 && scissors.length === 0){
-            clearInterval(moveRockInterval);
-            alreadyPlaying = false;
-            window.alert("Rock Wins!")
-        }
+    if (!alreadyPlaying) {
+        moveInterval = setInterval(moveImages, 100 / animationSpeed);
+        alreadyPlaying = true;
     }
 }
