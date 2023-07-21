@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function(){
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// Dynamically adjust the canvas size based on the user's screen width and height
+canvas.width = window.innerWidth * 0.6;
+canvas.height = window.innerHeight * 0.8;
 
 // Represents an image drawn on the canvas
 class ImageObject{
@@ -76,8 +79,8 @@ function placeImageOnCanvas(event) {
         const imageHeight = activeImage.height;
 
         // Calculate the position to place the image on the canvas from its center
-        const x = event.clientX - canvasX - imageWidth / 2;
-        const y = event.clientY - canvasY - imageHeight / 2;
+        let x = event.clientX - canvasX - imageWidth / 2;
+        let y = event.clientY - canvasY - imageHeight / 2;
 
         // Create the image object and store its location.
         const newImageObject = new ImageObject(activeImage, activeImage.alt);
@@ -197,28 +200,29 @@ function moveTowardsTarget(movingImages, targetImages, avoidImages) {
 
         // Normalize the direction vector for the "target"
         const distanceTarget = Math.sqrt(dxTarget * dxTarget + dyTarget * dyTarget);
-        const normDxTarget = dxTarget / distanceTarget;
-        const normDyTarget = dyTarget/ distanceTarget;
+        var normDxTarget = dxTarget / distanceTarget;
+        var normDyTarget = dyTarget/ distanceTarget;
 
         // Normalize the direction vector for the "avoid"
         const distanceAvoid = Math.sqrt(dxAvoid * dxAvoid + dyAvoid * dyAvoid);
-        const normDxAvoid = dxAvoid / distanceAvoid;
-        const normDyAvoid = dyAvoid/ distanceAvoid;
+        var normDxAvoid = dxAvoid / distanceAvoid;
+        var normDyAvoid = dyAvoid/ distanceAvoid;
+
+        const speed = 0.5; // Adjust the speed as needed
 
         // Update the position of the "moving" image towards the nearest "target" image
-        const speed = 1; // Adjust the speed as needed
         // Only update the position if there is a valid target to move to, 
         // keeps images from disappearing when there are no targets
         if (targetImages.length > 0){
             if (avoidImages.length > 0 && avoidFlag) {
-                // Also calculate the avoidance vector
                 movingImage.x = (movingX + speed * (normDxTarget + 0.5*normDxAvoid));
                 movingImage.y = (movingY + speed * (normDyTarget + 0.5*normDyAvoid));
+                
             } else {
                 movingImage.x = (movingX + speed * normDxTarget);
                 movingImage.y = (movingY + speed * normDyTarget);
+                
             }
-            
         }
     });
 }
@@ -318,7 +322,3 @@ speedSlider.oninput = function() {
         moveInterval = setInterval(moveImages, 10 - animationSpeed);
     }
 }
-
-// Dynamically adjust the canvas size based on the user's screen width and height
-canvas.width = window.innerWidth * 0.6;
-canvas.height = window.innerHeight * 0.8;
