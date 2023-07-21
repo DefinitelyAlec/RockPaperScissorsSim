@@ -1,6 +1,5 @@
 // Game movement logic
 let alreadyPlaying = false;
-// var imageObjects = [];
 var rocks = [];
 var papers = [];
 var scissors = [];
@@ -11,6 +10,7 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 
+// Represents an image drawn on the canvas
 class ImageObject{
     constructor(image, type){
         this.image = image
@@ -42,8 +42,6 @@ function toggleActive(element) {
 // JavaScript function to place the active image on the canvas
 function placeImageOnCanvas(event) {
     const activeImage = document.querySelector('.image-placeholder.active img');
-    // const canvasImage = new ImageObject(activeImage, activeImage.alt)
-    // console.log(canvasImage)
 
     if (activeImage) {
         const canvasRect = canvas.getBoundingClientRect();
@@ -58,9 +56,12 @@ function placeImageOnCanvas(event) {
         const x = event.clientX - canvasX - imageWidth / 2;
         const y = event.clientY - canvasY - imageHeight / 2;
 
+        // Create the image object and store its location.
         const newImageObject = new ImageObject(activeImage, activeImage.alt);
-        newImageObject.x = parseFloat(x);
-        newImageObject.y = parseFloat(y);
+        newImageObject.x = x;
+        newImageObject.y = y;
+
+        // Store each of the image objects in seperate lists to stay organized in the movement function.
         switch(newImageObject.type){
             case "rock":
                 rocks.push(newImageObject);
@@ -71,10 +72,7 @@ function placeImageOnCanvas(event) {
             case "scissors":                
                 scissors.push(newImageObject);
                 break;
-        }
-
-        
-        // ctx.drawImage(activeImage, x, y, activeImage.width, activeImage.height);
+        }        
         newImageObject.draw(ctx, x, y, newImageObject.image.width, newImageObject.image.height);
     }
 }
