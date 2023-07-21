@@ -217,11 +217,9 @@ function moveTowardsTarget(movingImages, targetImages, avoidImages) {
             if (avoidImages.length > 0 && avoidFlag) {
                 movingImage.x = (movingX + speed * (normDxTarget + 0.5*normDxAvoid));
                 movingImage.y = (movingY + speed * (normDyTarget + 0.5*normDyAvoid));
-                
             } else {
                 movingImage.x = (movingX + speed * normDxTarget);
                 movingImage.y = (movingY + speed * normDyTarget);
-                
             }
         }
     });
