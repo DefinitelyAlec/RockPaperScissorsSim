@@ -1,13 +1,20 @@
 // Game movement logic
-let alreadyPlaying = false;
+var alreadyPlaying = false;
 var rocks = [];
 var papers = [];
 var scissors = [];
 var moveInterval;
-let animationSpeed = 25; // Default animation speed
-const paperImg = document.getElementById("paper");
-const scissorsImg = document.getElementById("scissors");
-const rockImg = document.getElementById("rock");
+var animationSpeed;
+var paperImg;
+var scissorsImg;
+var rockImg;
+document.addEventListener('DOMContentLoaded', function(){
+    animationSpeed = parseInt(document.getElementById('speedSlider').value);
+    paperImg = document.getElementById("paper");
+    scissorsImg = document.getElementById("scissors");
+    rockImg = document.getElementById("rock");
+})
+
 
 
 // global canvas and context variables
@@ -203,6 +210,29 @@ function stopGameUpdate() {
     alreadyPlaying = false;
 }
 
+function displayWinMessage(text) {
+    const canvasRect = canvas.getBoundingClientRect();
+    const canvasX = canvasRect.left;
+    const canvasY = canvasRect.top;
+
+    const message = text;
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "black"; // Customize the color as needed
+    ctx.strokeStyle = "white"; // Set the outline color to white
+    ctx.lineWidth = 2; // Set the outline width
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const textX = canvas.width / 2;
+    const textY = canvas.height / 2;
+
+    // Draw the white outline
+    ctx.strokeText(message, textX, textY);
+
+    // Draw the black text on top of the outline
+    ctx.fillText(message, textX, textY);
+}
+
 function moveImages() {
     moveTowardsTarget(rocks, scissors);
     moveTowardsTarget(scissors, papers);
@@ -212,34 +242,45 @@ function moveImages() {
     // Check if scissors have won
     if (papers.length === 0 && rocks.length === 0 && scissors.length === 0){
         stopGameUpdate();
-        alert("Click on the rock, paper, or scissors icons on the right and place them on the play area. Hit play when you are ready to watch the action!")
+        displayWinMessage("Add some images from the right and press play!")
     } else if (papers.length === 0 && rocks.length === 0) {
         stopGameUpdate(); // Stop the animation
-        alert("Scissors wins!");
+        displayWinMessage("Scissors Wins!")
     } else if (papers.length === 0 && scissors.length === 0) {
         stopGameUpdate(); // Stop the animation
-        alert("Rock wins!");
+        displayWinMessage("Rock Wins!")
     } else if (scissors.length === 0 && rocks.length === 0) {
         stopGameUpdate(); // Stop the animation
-        alert("Paper wins!");
+        displayWinMessage("Paper Wins!")
     }
 }
 
 // JavaScript function to start or stop the play movement
 function play() {
+    // Start the movement animation
+    if (!alreadyPlaying) {
+        moveInterval = setInterval(moveImages, 10 - animationSpeed);
+        alreadyPlaying = true;
+    }
+}
+
+// Add event listener to the slider for input changes
+const speedSlider = document.getElementById('speedSlider');
+
+// Function to handle slider input changes
+speedSlider.oninput = function() {
     // Get the slider element and its label
-    const speedSlider = document.getElementById('speedSlider');
     const sliderValueLabel = document.getElementById('sliderValueLabel');
 
     // Update the label text with the current slider value
     sliderValueLabel.textContent = speedSlider.value;
-
-    // Get the slider value and set the animation speed
     animationSpeed = parseInt(speedSlider.value);
-
-    // Start the movement animation
-    if (!alreadyPlaying) {
-        moveInterval = setInterval(moveImages, 100 / animationSpeed);
-        alreadyPlaying = true;
+    if (alreadyPlaying){
+        clearInterval(moveInterval);
+        moveInterval = setInterval(moveImages, 10 - animationSpeed);
     }
 }
+
+// Dynamically adjust the canvas size based on the user's screen width and height
+canvas.width = window.innerWidth * 0.6;
+canvas.height = window.innerHeight * 0.8;

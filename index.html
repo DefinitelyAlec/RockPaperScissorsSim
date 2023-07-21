@@ -22,71 +22,27 @@
         </div>
     </div>
     
-    
-
-    <!-- Link the separate JavaScript file -->
-    <script src="canvas.js"></script>
-
-    <!-- <script src="gameplay.js"></script> -->
+    <script>
+        var alreadyPlaying = false;
+        var moveInterval;
+    </script>
 
     <!-- Buttons for Play and Clear -->
     <div class="settings">
         <div class="slider-container">
             <label>Game Speed</label>
-            <input type="range" id="speedSlider" min="1" max="100" value="25" step="1">
-            <label for="speedSlider" id="sliderValueLabel" style="min-width: 15px;">25</label>
+            <input type="range" id="speedSlider" min="1" max="10" value="5" step="1">
+            <label for="speedSlider" id="sliderValueLabel" style="min-width: 15px;">5</label>
         </div>
         <button id="playButton" onclick="play(); alreadyPlaying = true;">Play</button>
         <button id="pauseButton" onclick="clearInterval(moveInterval); alreadyPlaying = false;">Pause</button>
         <button id="clearButton" onclick="clearCanvas()">Clear</button>
     </div>
-    <script>
-        // Add event listener to the slider for input changes
-        const speedSlider = document.getElementById('speedSlider');
 
-        // Function to handle slider input changes
-        speedSlider.oninput = function() {
-            // Get the slider element and its label
-            const sliderValueLabel = document.getElementById('sliderValueLabel');
+    <!-- Link the separate JavaScript file -->
+    <script src="canvas.js"></script>
 
-            // Update the label text with the current slider value
-            sliderValueLabel.textContent = speedSlider.value;
-
-            // Get the slider value and update the animation speed
-            animationSpeed = parseInt(speedSlider.value);
-
-            // If the game is running, adjust the animation speed dynamically
-            if (alreadyPlaying) {
-                clearInterval(moveInterval);
-                moveInterval = setInterval(moveImages, 100 / animationSpeed);
-            }
-        }
-    </script>
-    <!-- <script>
-        
-        
-        // Get the slider element
-        const speedSlider = document.getElementById('speedSlider');
-        const sliderValueLabel = document.getElementById('sliderValueLabel');
-        sliderValueLabel.innerHTML = speedSlider.value; // Display the default slider value
-    
-        // Update the current slider value (each time you drag the slider handle)
-        speedSlider.oninput = function() {
-            sliderValueLabel.innerHTML = speedSlider.value;
-        }
-    </script> -->
-    
-    
-
-    <!-- Your game scripts should be included after the canvas element -->
-    <script>
-        // Dynamically adjust the canvas size based on the user's screen width and height
-        canvas.width = window.innerWidth * 0.6;
-        canvas.height = window.innerHeight * 0.8;
-
-        // Your game logic will go here
-        // You can use JavaScript and frameworks like Phaser, PixiJS, or plain canvas API to build your game.
-    </script>
+    <!-- <script src="gameplay.js"></script> -->
 
 </body>
 </html>
