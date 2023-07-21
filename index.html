@@ -25,6 +25,10 @@
     <script>
         var alreadyPlaying = false;
         var moveInterval;
+        var avoidFlag = false;
+        function toggleAvoidFlag() {
+            avoidFlag = !avoidFlag;
+        }
     </script>
 
     <!-- Buttons for Play and Clear -->
@@ -33,6 +37,9 @@
             <label>Game Speed</label>
             <input type="range" id="speedSlider" min="1" max="10" value="5" step="1">
             <label for="speedSlider" id="sliderValueLabel" style="min-width: 15px;">5</label>
+            <label>
+                <input type="checkbox" id="avoidFlag" onchange="toggleAvoidFlag()"> Avoidance AI
+            </label>
         </div>
         <button id="playButton" onclick="play(); alreadyPlaying = true;">Play</button>
         <button id="pauseButton" onclick="clearInterval(moveInterval); alreadyPlaying = false;">Pause</button>

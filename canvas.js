@@ -113,28 +113,31 @@ function clearCanvas() {
 
 
 // JavaScript function to handle the movement of "moving" images towards the closest "target" image
-function moveTowardsTarget(movingImages, targetImages) {
+function moveTowardsTarget(movingImages, targetImages, avoidImages) {
     movingImages.forEach((movingImage) => {
         const movingX = parseFloat(movingImage.x);
         const movingY = parseFloat(movingImage.y);
         // console.log("x: "+ movingX + ", y: " + movingY)
 
-        let nearestDistance = Infinity;
+        let nearestDistanceTarget = Infinity;
         let nearestTargetX, nearestTargetY;
+
+        let nearestDistanceAvoid = Infinity;
+        let nearestAvoidX, nearestAvoidY;
 
         targetImages.forEach((targetImage) => {
             const targetX = parseFloat(targetImage.x);
             const targetY = parseFloat(targetImage.y);
 
             // Calculate the distance between the "moving" and "target" images
-            const dx = targetX - movingX;
-            const dy = targetY - movingY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            const dxTarget = targetX - movingX;
+            const dyTarget = targetY - movingY;
+            const distanceTarget = Math.sqrt(dxTarget * dxTarget + dyTarget * dyTarget);
             // console.log("distance: " + distance)
 
             // Check if this "target" image is closer than the current nearest one
-            if (distance < nearestDistance) {
-                nearestDistance = distance;
+            if (distanceTarget < nearestDistanceTarget) {
+                nearestDistanceTarget = distanceTarget;
                 nearestTargetX = targetX;
                 nearestTargetY = targetY;
             }
@@ -165,22 +168,57 @@ function moveTowardsTarget(movingImages, targetImages) {
             }
         });
 
-        // Calculate the direction vector (dx, dy) from "moving" to the nearest "target"
-        const dx = nearestTargetX - movingX;
-        const dy = nearestTargetY - movingY;
+        avoidImages.forEach((avoidImage) => {
+            const avoidX = parseFloat(avoidImage.x);
+            const avoidY = parseFloat(avoidImage.y);
 
-        // Normalize the direction vector
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const normDx = dx / distance;
-        const normDy = dy / distance;
+            // Calculate the distance between the "moving" and "target" images
+            const dxAvoid = avoidX - movingX;
+            const dyAvoid = avoidY - movingY;
+            const distanceAvoid = Math.sqrt(dxAvoid * dxAvoid + dyAvoid * dyAvoid);
+            // console.log("distance: " + distance)
+
+            // Check if this "target" image is closer than the current nearest one
+            if (distanceAvoid < nearestDistanceAvoid) {
+                nearestDistanceAvoid = distanceAvoid;
+                nearestAvoidX = avoidX;
+                nearestAvoidY = avoidY;
+            }
+        })
+
+        // Calculate the direction vector (dx, dy) from "moving" to the nearest "target"
+        const dxTarget = nearestTargetX - movingX;
+        const dyTarget = nearestTargetY - movingY;
+
+        // Calculate the direction vector (dx, dy) from "moving" to the nearest "avoid"
+        // Invert the calculation since we want to move away from this image
+        const dxAvoid = -(nearestAvoidX - movingX);
+        const dyAvoid = -(nearestAvoidY - movingY);
+
+        // Normalize the direction vector for the "target"
+        const distanceTarget = Math.sqrt(dxTarget * dxTarget + dyTarget * dyTarget);
+        const normDxTarget = dxTarget / distanceTarget;
+        const normDyTarget = dyTarget/ distanceTarget;
+
+        // Normalize the direction vector for the "avoid"
+        const distanceAvoid = Math.sqrt(dxAvoid * dxAvoid + dyAvoid * dyAvoid);
+        const normDxAvoid = dxAvoid / distanceAvoid;
+        const normDyAvoid = dyAvoid/ distanceAvoid;
 
         // Update the position of the "moving" image towards the nearest "target" image
         const speed = 1; // Adjust the speed as needed
         // Only update the position if there is a valid target to move to, 
         // keeps images from disappearing when there are no targets
         if (targetImages.length > 0){
-            movingImage.x = movingX + speed * normDx;
-            movingImage.y = movingY + speed * normDy;
+            if (avoidImages.length > 0 && avoidFlag) {
+                // Also calculate the avoidance vector
+                movingImage.x = (movingX + speed * (normDxTarget + 0.5*normDxAvoid));
+                movingImage.y = (movingY + speed * (normDyTarget + 0.5*normDyAvoid));
+            } else {
+                movingImage.x = (movingX + speed * normDxTarget);
+                movingImage.y = (movingY + speed * normDyTarget);
+            }
+            
         }
     });
 }
@@ -234,9 +272,9 @@ function displayWinMessage(text) {
 }
 
 function moveImages() {
-    moveTowardsTarget(rocks, scissors);
-    moveTowardsTarget(scissors, papers);
-    moveTowardsTarget(papers, rocks);
+    moveTowardsTarget(rocks, scissors, papers);
+    moveTowardsTarget(scissors, papers, rocks);
+    moveTowardsTarget(papers, rocks, scissors);
     drawImageObjects();
 
     // Check if scissors have won
