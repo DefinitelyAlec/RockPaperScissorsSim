@@ -23,16 +23,22 @@ canvas {
     body {
         background-color: #1a1a1a; /* Dark background color */
     }
+    label, p {
+        color: white;
+    }
 }
 
 @media (prefers-color-scheme: light) {
     body {
         background-color: #f0f0f0; /* Light background color */
     }
+    label, p {
+        color: black;
+    }
 }
 
-/* Style for the buttons */
-.buttons {
+/* Style for the settings */
+.settings {
     text-align: center;
 }
 
@@ -53,6 +59,15 @@ button:hover {
 
 button:active {
     background-color: #0e5584;
+}
+
+.slider-container {
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 /* Style for the image placeholders */

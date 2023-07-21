@@ -22,17 +22,59 @@
         </div>
     </div>
     
+    
+
     <!-- Link the separate JavaScript file -->
     <script src="canvas.js"></script>
 
     <!-- <script src="gameplay.js"></script> -->
 
     <!-- Buttons for Play and Clear -->
-    <div class="buttons">
+    <div class="settings">
+        <div class="slider-container">
+            <label>Game Speed</label>
+            <input type="range" id="speedSlider" min="1" max="100" value="25" step="1">
+            <label for="speedSlider" id="sliderValueLabel" style="min-width: 15px;">25</label>
+        </div>
         <button id="playButton" onclick="play(); alreadyPlaying = true;">Play</button>
-        <button id="pauseButton" onclick="clearInterval(moveRockInterval); alreadyPlaying = false;">Pause</button>
+        <button id="pauseButton" onclick="clearInterval(moveInterval); alreadyPlaying = false;">Pause</button>
         <button id="clearButton" onclick="clearCanvas()">Clear</button>
     </div>
+    <script>
+        // Add event listener to the slider for input changes
+        const speedSlider = document.getElementById('speedSlider');
+
+        // Function to handle slider input changes
+        speedSlider.oninput = function() {
+            // Get the slider element and its label
+            const sliderValueLabel = document.getElementById('sliderValueLabel');
+
+            // Update the label text with the current slider value
+            sliderValueLabel.textContent = speedSlider.value;
+
+            // Get the slider value and update the animation speed
+            animationSpeed = parseInt(speedSlider.value);
+
+            // If the game is running, adjust the animation speed dynamically
+            if (alreadyPlaying) {
+                clearInterval(moveInterval);
+                moveInterval = setInterval(moveImages, 100 / animationSpeed);
+            }
+        }
+    </script>
+    <!-- <script>
+        
+        
+        // Get the slider element
+        const speedSlider = document.getElementById('speedSlider');
+        const sliderValueLabel = document.getElementById('sliderValueLabel');
+        sliderValueLabel.innerHTML = speedSlider.value; // Display the default slider value
+    
+        // Update the current slider value (each time you drag the slider handle)
+        speedSlider.oninput = function() {
+            sliderValueLabel.innerHTML = speedSlider.value;
+        }
+    </script> -->
     
     
 
