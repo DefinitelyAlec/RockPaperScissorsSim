@@ -4,6 +4,10 @@ var rocks = [];
 var papers = [];
 var scissors = [];
 var moveRockInterval;
+const paperImg = document.getElementById("paper");
+const scissorsImg = document.getElementById("scissors");
+const rockImg = document.getElementById("rock");
+
 
 // global canvas and context variables
 const canvas = document.getElementById('gameCanvas');
@@ -33,6 +37,36 @@ class ImageObject{
             this.y + this.height > otherImageObject.y
         );
     }
+
+    // transmute(toType){
+    //     switch(toType){
+    //         case "paper":
+    //             // remove from previous list
+    //             switch(this.type){
+    //                 case "rock":
+    //                     console.log(rocks);
+    //                     const index = rocks.indexOf(this);
+    //                     console.log(index);
+    //                     rocks.splice(index, 1);
+    //                     console.log(rocks);
+    //                     break;
+    //                 case "scissors":
+    //                     // TODO
+    //                     break;
+    //             }
+    //             this.image = paperImg;
+    //             this.type = "paper";
+    //             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    //             papers.push(this);
+    //             break;
+    //         case "rock":
+    //             // TODO
+    //             break;
+    //         case "scissors":
+    //             //TODO
+    //             break;
+    //     }
+    // }
 }
 
 
@@ -126,40 +160,24 @@ function moveTowardsTarget(movingImages, targetImages) {
                 nearestTargetX = targetX;
                 nearestTargetY = targetY;
             }
-
-            // // Collision check between movingImage and targetImage
-            // if (movingImage.collidesWith(targetImage)) {
-            //     // Check if movingImage is a rock and targetImage is paper
-            //     if (movingImage.type === 'rock' && targetImage.type === 'paper') {
-            //         // Handle collision between rock and paper here
-            //         console.log("Rock collided with Paper!");
-            //         // For example, you could remove the rock and paper from their respective arrays
-            //         const rockIndex = rocks.indexOf(movingImage);
-            //         if (rockIndex !== -1) {
-            //             rocks.splice(rockIndex, 1);
-            //         }
-            //         const paperIndex = papers.indexOf(targetImage);
-            //         if (paperIndex !== -1) {
-            //             papers.splice(paperIndex, 1);
-            //         }
-            //         // Redraw the canvas after removing the collided rock and paper
-            //         drawImageObjects();
-            //     }
-            // }
-
+            // console.log(targetImage.type)
+            // console.log(movingImage.type)
             // console.log(movingImage.collidesWith(targetImage))
             // Collision check
             if (movingImage.collidesWith(targetImage)) {
                 // change the alt and image for consistency
-                targetImage.alt = movingImage.alt;
+                // console.log(targetImage.type)
+                // console.log(movingImage.type)
+                targetImage.type = movingImage.type;
                 targetImage.image = movingImage.image;
-                console.log(movingImage.alt + " collided with " + targetImage.alt)
+                // console.log(movingImage.type + " collided with " + targetImage.type)
                 // Change the target properties to that of the chasing one if they collide
-                switch(targetImage.alt){
+                switch(targetImage.type){
                     case "rock":
                         rockIndex = rocks.indexOf(targetImage);
                         rocks.splice(rockIndex, 1);
                         papers.push(targetImage);
+                        // targetImage.transmute("paper");
                         break;
                     case "paper":
                         paperIndex = papers.indexOf(targetImage);
@@ -226,5 +244,18 @@ function play() {
             moveTowardsTarget(papers, rocks);
             drawImageObjects();
         }, 25);
+        if (rocks.length === 0 && papers.length === 0){
+            clearInterval(moveRockInterval);
+            alreadyPlaying = false;
+            window.alert("Scissors Wins!")
+        } else if (rocks.length === 0 && scissors.length === 0){
+            clearInterval(moveRockInterval);
+            alreadyPlaying = false;
+            window.alert("Paper Wins!")
+        } else if (papers.length === 0 && scissors.length === 0){
+            clearInterval(moveRockInterval);
+            alreadyPlaying = false;
+            window.alert("Rock Wins!")
+        }
     }
 }
