@@ -79,6 +79,7 @@ function placeImageOnCanvas(event) {
         // Calculate the position to place the image on the canvas from its center
         let x = event.clientX - canvasX - imageWidth / 2;
         let y = event.clientY - canvasY - imageHeight / 2;
+        console.log("x: " + x + ", y: " + y);
 
         // Create the image object and store its location.
         const newImageObject = new ImageObject(activeImage, activeImage.alt);
