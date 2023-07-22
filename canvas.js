@@ -63,22 +63,30 @@ function toggleActive(element) {
 }
 
 
+// Grabs mouse position on canvas
+function getMousePos(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+    };
+}
+
+
 // JavaScript function to place the active image on the canvas
 function placeImageOnCanvas(event) {
     const activeImage = document.querySelector('.image-placeholder.active img');
 
     if (activeImage) {
-        const canvasRect = canvas.getBoundingClientRect();
-        const canvasX = canvasRect.left;
-        const canvasY = canvasRect.top;
-
         // Get the dimensions of the active image
         const imageWidth = activeImage.width;
         const imageHeight = activeImage.height;
 
+
         // Calculate the position to place the image on the canvas from its center
-        let x = event.clientX - canvasX - imageWidth / 2;
-        let y = event.clientY - canvasY - imageHeight / 2;
+        let mousePos = getMousePos(canvas, event)
+        let x = mousePos.x - imageWidth / 2;
+        let y = mousePos.y - imageHeight / 2;
         console.log("x: " + x + ", y: " + y);
 
         // Create the image object and store its location.
