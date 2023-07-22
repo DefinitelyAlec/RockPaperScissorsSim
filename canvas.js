@@ -73,6 +73,43 @@ function getMousePos(canvas, event) {
 }
 
 
+// Function to remove the image object if the cursor is directly on the image
+function removeImageAtPosition(event) {
+    const allImageObjects = [...rocks, ...papers, ...scissors];
+
+    // Loop through all image objects and check if the cursor is over any of them
+    for (let i = allImageObjects.length - 1; i >= 0; i--) {
+        const imageObj = allImageObjects[i];
+        const imageLeft = imageObj.x;
+        const imageRight = imageObj.x + imageObj.width;
+        const imageTop = imageObj.y;
+        const imageBottom = imageObj.y + imageObj.height;
+        const mousePos = getMousePos(canvas, event);
+        // Check if the cursor position (x, y) is within the boundaries of the current image
+        if (mousePos.x >= imageLeft && mousePos.x <= imageRight && mousePos.y >= imageTop && mousePos.y <= imageBottom) {
+            // Remove the image object from its respective array
+            switch (imageObj.type) {
+                case "rock":
+                    rocks.splice(i, 1);
+                    break;
+                case "paper":
+                    papers.splice(i, 1);
+                    break;
+                case "scissors":
+                    scissors.splice(i, 1);
+                    break;
+            }
+
+            // Redraw the canvas without the removed image object
+            drawImageObjects();
+            break; // Exit the loop after removing the image
+        }
+    }
+}
+// Event listener for "right-click"
+canvas.addEventListener('contextmenu', removeImageAtPosition);
+
+
 // JavaScript function to place the active image on the canvas
 function placeImageOnCanvas(event) {
     const activeImage = document.querySelector('.image-placeholder.active img');
