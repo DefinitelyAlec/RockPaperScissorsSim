@@ -35,7 +35,14 @@ class ImageObject{
     }
 
     draw(ctx, x, y, width, height){
-        ctx.drawImage(this.image, x, y, width, height);
+        // Draw only the non-transparent pixels of the image
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, this.width, this.height);
+        ctx.clip(); // Clip the canvas to only allow drawing within the bounding box of the image
+
+        ctx.drawImage(this.image, x, y, this.width, this.height);
+        ctx.restore();    
     }
 
     collidesWith(otherImageObject) {
@@ -76,27 +83,29 @@ function getMousePos(canvas, event) {
 // Function to remove the image object if the cursor is directly on the image
 function removeImageAtPosition(event) {
     const allImageObjects = [...rocks, ...papers, ...scissors];
+    // console.log(allImageObjects)
 
     // Loop through all image objects and check if the cursor is over any of them
-    for (let i = allImageObjects.length - 1; i >= 0; i--) {
+    for (let i = 0; i <= allImageObjects.length - 1; i++) {
         const imageObj = allImageObjects[i];
         const imageLeft = imageObj.x;
         const imageRight = imageObj.x + imageObj.width;
         const imageTop = imageObj.y;
         const imageBottom = imageObj.y + imageObj.height;
         const mousePos = getMousePos(canvas, event);
+
         // Check if the cursor position (x, y) is within the boundaries of the current image
         if (mousePos.x >= imageLeft && mousePos.x <= imageRight && mousePos.y >= imageTop && mousePos.y <= imageBottom) {
             // Remove the image object from its respective array
             switch (imageObj.type) {
                 case "rock":
-                    rocks.splice(i, 1);
+                    rocks.splice(rocks.indexOf(imageObj), 1);
                     break;
                 case "paper":
-                    papers.splice(i, 1);
+                    papers.splice(papers.indexOf(imageObj), 1);
                     break;
                 case "scissors":
-                    scissors.splice(i, 1);
+                    scissors.splice(scissors.indexOf(imageObj), 1);
                     break;
             }
 
