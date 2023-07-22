@@ -11,6 +11,7 @@ canvas {
     /* Set the dimensions of the canvas as per your requirement */
     width: 60vw;
     height: 80vh;
+    object-fit: contain; /* Maintain aspect ratio */
 }
 
 .game-container {

@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', function(){
     rockImg = document.getElementById("rock");
 })
 
-
-
 // global canvas and context variables
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
