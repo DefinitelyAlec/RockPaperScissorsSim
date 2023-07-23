@@ -8,7 +8,7 @@ canvas {
     display: block;
     background-color: grey; /* Change the background color to your preference */
     margin: auto;
-    height: 80vh; /* Set the height of the canvas, leave the width untouched to let it scale properly */
+    height: 70vh; /* Set the height of the canvas, leave the width untouched to let it scale properly */
     object-fit: contain; /* Maintain aspect ratio */
 }
 
@@ -33,7 +33,7 @@ canvas {
     body {
         background-color: #1a1a1a; /* Dark background color */
     }
-    label, p {
+    label, p, a, li {
         color: white;
     }
 }
@@ -42,7 +42,7 @@ canvas {
     body {
         background-color: #f0f0f0; /* Light background color */
     }
-    label, p {
+    label, p, a, li {
         color: black;
     }
 }
@@ -90,7 +90,7 @@ button:active {
 .image-placeholder {
     width: 75px;
     height: 75px;
-    background-color: #dcdcdc; /* Light grey color for the placeholders */
+    /* background-color: #dcdcdc; Light grey color for the placeholders */
     margin: 10px 0;
     /* Ensure images fit inside the placeholders without overflowing */
     overflow: hidden;
@@ -119,4 +119,54 @@ button:active {
 img {
     max-width: 100%;
     max-height: 100%;
+}
+
+/* --------------- Style for the tile and tile components --------------- */
+.help-button-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  text-align: right;
+}
+.help-button {
+  /* height: 60px;
+  width: 60px; */
+  /* border-radius: 50%; */
+  /* border: 0 none; */
+  cursor: pointer;
+  /* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); */
+  transform: scale(1);
+  transition: all 200ms ease;
+}
+
+/* .help-button span {
+  display: block;
+  font-size: 2em;
+  transform: scale(1);
+  transition: transform 200ms ease;
+} */
+/* .help-button:hover span,
+.expanded .help-button span,
+.expanded .help-button span {
+  transform: scale(1.25);
+} */
+/* .expanded .help-button {
+  transform: scale(.5);
+  color: rgba(255,255,255,.5);
+} */
+.help-list {
+  /* list-style: none; */
+  padding: 0;
+  margin: 20px;
+  transition: all 200ms ease;
+  transform: translate(0, 90px) scale(.5);
+  transform-origin: bottom right;
+  opacity: 0;
+}
+.expanded .help-list {
+  transform: translate(0px,20px) scale(1);
+  opacity: 1;
+}
+.help-list li {
+  margin-bottom: 1em;
 }
