@@ -137,7 +137,10 @@ img {
   bottom: 20px;
   right: 20px;
 }
-.help-list {
+.help-list-backdrop{
+    background-color: #3498db;
+}
+.help-list, .help-list-backdrop{
   padding: 0;
   margin: 20px;
   transition: all 200ms ease;
@@ -145,7 +148,7 @@ img {
   transform-origin: bottom right;
   opacity: 0;
 }
-.expanded .help-list {
+.expanded .help-list, .help-list-backdrop{
   transform: translate(0px,20px) scale(1);
   opacity: 1;
 }
