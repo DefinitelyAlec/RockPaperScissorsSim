@@ -124,38 +124,20 @@ img {
 /* --------------- Style for the tile and tile components --------------- */
 .help-button-wrapper {
   position: fixed;
-  bottom: 20px;
+  bottom: 20px; 
   right: 20px;
-  text-align: right;
+  text-align: left;
 }
 .help-button {
-  /* height: 60px;
-  width: 60px; */
-  /* border-radius: 50%; */
-  /* border: 0 none; */
   cursor: pointer;
-  /* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); */
   transform: scale(1);
   transition: all 200ms ease;
+  text-align: right;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
-
-/* .help-button span {
-  display: block;
-  font-size: 2em;
-  transform: scale(1);
-  transition: transform 200ms ease;
-} */
-/* .help-button:hover span,
-.expanded .help-button span,
-.expanded .help-button span {
-  transform: scale(1.25);
-} */
-/* .expanded .help-button {
-  transform: scale(.5);
-  color: rgba(255,255,255,.5);
-} */
 .help-list {
-  /* list-style: none; */
   padding: 0;
   margin: 20px;
   transition: all 200ms ease;
