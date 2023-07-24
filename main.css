@@ -98,6 +98,7 @@ button:active {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px solid transparent; /* Add a transparent border so elements don't move when active */
 }
 
 /* Style for active image placeholder */
