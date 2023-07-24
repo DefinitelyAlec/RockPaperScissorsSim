@@ -8,24 +8,29 @@
     <div class="game-title">
         <p class="game-title-text">Rock Paper Scissors Simulator</p>
     </div>
-    <div class="game-container">
-        
-        <canvas id="gameCanvas" oncontextmenu="return false;"></canvas>
-
+    <div class="game-and-sidebar">
+        <div class="sidebar-left">
+            <!-- Empty div for flexbox -->
+        </div>
+        <div class="game-container">
+            <canvas id="gameCanvas" oncontextmenu="return false;"></canvas>
+        </div>
         <!-- Image placeholders container -->
-        <div class="image-container">
-            <div id="rock" class="image-placeholder" onclick="toggleActive(this)">
-                <img src="images/rock.png" alt="rock">
-            </div>
-            <div id="paper" class="image-placeholder" onclick="toggleActive(this)">
-                <img src="images/paper.png" alt="paper">
-            </div>
-            <div id="scissors" class="image-placeholder" onclick="toggleActive(this)">
-                <img src="images/scissors.png" alt="scissors">
-            </div>
+        <div class="sidebar-right">
+            <div class="image-container">
+                <div id="rock" class="image-placeholder" onclick="toggleActive(this)">
+                    <img src="images/rock.png" alt="rock">
+                </div>
+                <div id="paper" class="image-placeholder" onclick="toggleActive(this)">
+                    <img src="images/paper.png" alt="paper">
+                </div>
+                <div id="scissors" class="image-placeholder" onclick="toggleActive(this)">
+                    <img src="images/scissors.png" alt="scissors">
+                </div>
+            </div> 
         </div>
     </div>
-    
+
     <script>
         var alreadyPlaying = false;
         var moveInterval;

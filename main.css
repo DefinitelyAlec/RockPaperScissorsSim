@@ -14,7 +14,6 @@ canvas {
 
 .game-container {
     display: flex;
-    align-items: flex-start;
 }
 
 /* --------------- Style for the title  --------------- */
@@ -26,6 +25,22 @@ canvas {
 .game-title-text {
     font-size: 24px;
     font-weight: bold;
+}
+
+/* --------------- Style for the title  --------------- */
+.game-and-sidebar {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-left {
+    flex: 1; /* keeps sidebar from disappearing when empty */
+}
+
+.sidebar-right {
+    flex: 1; /* mirrors size of other sidebar for uniformity */
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 /* --------------- Use prefers-color-scheme to set background color based on user's system theme --------------- */
@@ -90,7 +105,7 @@ button:active {
 .image-placeholder {
     width: 75px;
     height: 75px;
-    background-color: #dcdcdc; /* Light grey color for the placeholders */
+    /* background-color: #dcdcdc; Light grey color for the placeholders */
     margin: 10px 0;
     /* Ensure images fit inside the placeholders without overflowing */
     overflow: hidden;
